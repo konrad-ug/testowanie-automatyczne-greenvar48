@@ -28,4 +28,8 @@ class TestCreateBankAccount(unittest.TestCase):
 
         konto_ze_zlym_rabatem = Konto(imie1, nazwisko1, pesel1, zly_kod_rabatowy)
         self.assertEqual(konto_ze_zlym_rabatem.saldo, domyslne_saldo, "Rabat jest naliczany za niepoprawny kod!")
+
+        pesel_za_stary = "60011513574"
+        konto_z_za_starym_peselem = Konto(imie1, nazwisko1, pesel_za_stary, kod_rabatowy1);
+        self.assertEqual(konto_z_za_starym_peselem.saldo, domyslne_saldo, "Naliczono rabat osobie za starej!")
         
