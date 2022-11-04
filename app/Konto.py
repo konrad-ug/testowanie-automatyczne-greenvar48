@@ -30,6 +30,9 @@ class Konto:
         if self.saldo - kwota >= 0:
             self.saldo -= kwota + self.oplata_za_ekspresowy
 
+    def test(self):
+        print("Uncovereeeed")
+
 class KontoFirmowe(Konto):
     def __init__(self, nazwa_firmy, nip):
         self.oplata_za_ekspresowy = 5
