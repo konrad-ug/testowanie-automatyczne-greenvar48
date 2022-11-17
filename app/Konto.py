@@ -5,6 +5,7 @@ class Konto:
         self.oplata_za_ekspresowy = 1
         self.imie = imie
         self.nazwisko = nazwisko
+        self.historia = []
 
         if len(pesel) == 11:
             self.pesel = pesel
@@ -22,13 +23,17 @@ class Konto:
     def przelew_wychodzacy(self, kwota):
         if self.saldo - kwota >= 0:
             self.saldo -= kwota
+            self.historia.append(- kwota)
 
     def przelew_przychodzący(self, kwota):
         self.saldo += kwota
+        self.historia.append(kwota)
 
     def przelew_ekspresowy(self, kwota):
         if self.saldo - kwota >= 0:
             self.saldo -= kwota + self.oplata_za_ekspresowy
+            self.historia.append(- self.oplata_za_ekspresowy)
+            self.historia.append(- kwota)
 
 class KontoFirmowe(Konto):
     def __init__(self, nazwa_firmy, nip):
@@ -40,3 +45,5 @@ class KontoFirmowe(Konto):
             self.nip = nip
         
         self.saldo = 0
+        self.historia = []
+
