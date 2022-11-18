@@ -12,9 +12,6 @@ class TestksiegowanieOperacji(unittest.TestCase):
     nazwa_firmy1 = "Najlepsza Firma"
     nip1 = "0123456789"
 
-    oplata_osobiste = 1
-    oplata_firmowe = 5
-
     def test_przelewu_wychodzacego_osobiste(self):
         konto = Konto(self.imie1, self.nazwisko1, self.pesel1)
         pierwotne_saldo = 500
@@ -64,35 +61,15 @@ class TestksiegowanieOperacji(unittest.TestCase):
         pierwotne_saldo = 500
         konto.saldo = pierwotne_saldo
         kwota = 100
-        
+        oplata_osobiste = 1
         konto.przelew_ekspresowy(kwota)
-        self.assertEqual(konto.saldo, pierwotne_saldo - kwota - self.oplata_osobiste, "Niepoprawne saldo przy przelewie ekspresowym!")
+        self.assertEqual(konto.saldo, pierwotne_saldo - kwota - oplata_osobiste, "Niepoprawne saldo przy przelewie ekspresowym!")
 
     def test_przelewu_ekspresowego_konta_firmowe(self):
         konto = KontoFirmowe(self.nazwa_firmy1, self.nip1)
         pierwotne_saldo = 500
         konto.saldo = pierwotne_saldo
         kwota = 100
-        
+        oplata_firmowe = 5
         konto.przelew_ekspresowy(kwota)
-        self.assertEqual(konto.saldo, pierwotne_saldo - kwota - self.oplata_firmowe, "Niepoprawne saldo przy przelewie ekspresowym!")
-
-    def test_historii_przelewów_personalne(self):
-        konto = Konto(self.imie1, self.nazwisko1, self.pesel1)
-        kwoty = [500, 100, 300]
-        konto.saldo = 1000
-        konto.przelew_wychodzacy(kwoty[0])
-        konto.przelew_przychodzący(kwoty[1])
-        konto.przelew_ekspresowy(kwoty[2])
-        self.assertEqual(konto.historia, [-kwoty[0], kwoty[1], -self.oplata_osobiste, -kwoty[2]], 
-        "Niepoprawnie zapisana historia!")
-    
-    def test_historii_przelewów_firmowe(self):
-        konto = KontoFirmowe(self.nazwa_firmy1, self.nip1)
-        kwoty = [500, 100, 300]
-        konto.saldo = 1000
-        konto.przelew_wychodzacy(kwoty[0])
-        konto.przelew_przychodzący(kwoty[1])
-        konto.przelew_ekspresowy(kwoty[2])
-        self.assertEqual(konto.historia, [-kwoty[0], kwoty[1], -self.oplata_firmowe, -kwoty[2]], 
-        "Niepoprawnie zapisana historia!")
+        self.assertEqual(konto.saldo, pierwotne_saldo - kwota - oplata_firmowe, "Niepoprawne saldo przy przelewie ekspresowym!")
