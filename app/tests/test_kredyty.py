@@ -1,4 +1,5 @@
 import unittest
+from parameterized import parameterized, parameterized_class
 
 from ..Konto import Konto
 from ..Konto import KontoFirmowe
@@ -18,31 +19,16 @@ class TestKredyty(unittest.TestCase):
     def setUp(self):
         self.konto = Konto(self.imie1, self.nazwisko1, self.pesel1)
 
-    def test_zaciagij_kredyt_osobiste_spelnione_warunki(self):
-        kwoty = [-25, -25, 100, 100, 100]
-        self.konto.historia = kwoty
-        self.konto.saldo = sum(self.konto.historia)
-        kwota_kredytu = 249
-        self.assertEqual(self.konto.zaciagnij_kredyt(kwota_kredytu), True, "Kredyt powinien zostać udzielony!")
-        self.assertEqual(self.konto.saldo, sum(self.konto.historia) + kwota_kredytu, "Saldo konta nie zgadza się po udzieleniu kredytu!")
+    @parameterized.expand([
+        ([-25, -25, 100, 100, 100], 249, True),
+        ([-25, -25, -100, 100, 100], 49, False),
+        ([-25, -25, -100, 100, 100], 50, False),
+        ([-50, 50, 50, 100], 149, False)
+    ])
 
-    def test_zaciagij_kredyt_osobiste_zla_ilosc_wplywow(self):
-        kwoty = [-25, -25, -100, 100, 100]
-        self.konto.historia = kwoty
+    def test_zaciagij_kredyt_osobiste(self, historia, kwota_kredytu, rezultat_zaciagnij):
+        self.konto.historia = historia
         self.konto.saldo = sum(self.konto.historia)
-        kwota_kredytu = 49
-        self.assertEqual(self.konto.zaciagnij_kredyt(kwota_kredytu), False, "Ostatnie 3 transakcje nie sią wpływami!")
-
-    def test_zaciagij_kredyt_osobiste_za_male_saldo_5_transakcji(self):
-        kwoty = [-25, -25, -100, 100, 100]
-        self.konto.historia = kwoty
-        self.konto.saldo = sum(self.konto.historia)
-        kwota_kredytu = 50
-        self.assertEqual(self.konto.zaciagnij_kredyt(kwota_kredytu), False, "Saldo ostatnich 5 transakcji nie jest większe od kwoty kredytu!")
-
-    def test_zaciagij_kredyt_osobiste_mniej_niz_5_transakcji(self):
-        kwoty = [-25, -25, 100, 100]
-        self.konto.historia = kwoty
-        self.konto.saldo = sum(self.konto.historia)
-        kwota_kredytu = 149
-        self.assertEqual(self.konto.zaciagnij_kredyt(kwota_kredytu), False, "Konto wykonało mniej niż 5 transakcji!")
+        self.assertEqual(self.konto.zaciagnij_kredyt(kwota_kredytu), rezultat_zaciagnij)
+        if rezultat_zaciagnij:
+            self.assertEqual(self.konto.saldo, sum(self.konto.historia) + kwota_kredytu)

@@ -36,7 +36,8 @@ class Konto:
             self.historia.append(- kwota)
 
     def zaciagnij_kredyt(self, kwota):
-        if all(transakcja > 0 for transakcja in self.historia[-1:-4:-1]) \
+        if len(self.historia) > 4 \
+        and all(transakcja > 0 for transakcja in self.historia[-1:-4:-1]) \
         and sum(self.historia[-1:-6:-1]) > kwota:
             self.saldo += kwota;
             return True;
