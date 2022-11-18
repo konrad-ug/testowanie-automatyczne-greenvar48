@@ -3,7 +3,7 @@ import unittest
 from ..Konto import Konto
 from ..Konto import KontoFirmowe
 
-class TestksiegowanieOperacji(unittest.TestCase):
+class TestKsiegowanieOperacji(unittest.TestCase):
     imie1 = "Dariusz"
     nazwisko1 = "Januszewski"
     pesel1 = "01234567891"

@@ -35,6 +35,16 @@ class Konto:
             self.historia.append(- self.oplata_za_ekspresowy)
             self.historia.append(- kwota)
 
+    def zaciagnij_kredyt(self, kwota):
+        if len(self.historia) > 4 \
+        and all(transakcja > 0 for transakcja in self.historia[-1:-4:-1]) \
+        and sum(self.historia[-1:-6:-1]) > kwota:
+            self.saldo += kwota;
+            return True;
+        else:
+            return False;
+            
+
 class KontoFirmowe(Konto):
     def __init__(self, nazwa_firmy, nip):
         self.oplata_za_ekspresowy = 5
