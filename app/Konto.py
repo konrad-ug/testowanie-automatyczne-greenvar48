@@ -57,3 +57,12 @@ class KontoFirmowe(Konto):
         self.saldo = 0
         self.historia = []
 
+    def zaciagnij_kredyt(self, kwota):
+        if self.saldo >= 2 * kwota and \
+        any(przelew == -1775 for przelew in self.historia):
+            self.saldo += kwota
+            return True;
+        else:
+            return False;
+        
+
