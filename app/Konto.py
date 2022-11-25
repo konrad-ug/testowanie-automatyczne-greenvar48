@@ -64,5 +64,4 @@ class KontoFirmowe(Konto):
             return True
         else:
             return False
-        
-
+            

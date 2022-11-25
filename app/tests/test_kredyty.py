@@ -30,11 +30,9 @@ class TestKredytyOsobiste(unittest.TestCase):
 
     
 
-class TestKredytyOsobiste(unittest.TestCase):
+class TestKredytyFirmowe(unittest.TestCase):
     nazwa_firmy1 = "Najlepsza Firma"
     nip1 = "0123456789"
-
-    oplata_firmowe = 5
 
     def setUp(self):
         self.konto = KontoFirmowe(self.nazwa_firmy1, self.nip1)
