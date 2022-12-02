@@ -8,9 +8,11 @@ class RejestrKont:
     @classmethod
     def szukaj(cls, pesel):
         for konto in cls.lista:
+            print(konto.pesel)
+            print(pesel)
+            print()
             if konto.pesel == pesel:
                 return konto
-                break
         return None
 
     @classmethod

@@ -17,12 +17,14 @@ def ile_kont():
 
 @app.route('/konta/konto/<pesel>', methods=['GET'])
 def szukaj(pesel):
+    print(pesel)
     rezultat = RejestrKont.szukaj(pesel)
     if rezultat is not None:
         return jsonify(
             imie=rezultat.imie,
             nazwisko=rezultat.nazwisko,
-            pesel=rezultat.pesel
+            pesel=rezultat.pesel,
+            saldo=rezultat.saldo
         ), 200
     else:
         return jsonify("Nie znaleziono konta"), 404
