@@ -1,16 +1,16 @@
 import re
 
-class Konto:
+class Konto():
     def __init__(self, imie, nazwisko, pesel, kod_rabatowy=None):
         self.oplata_za_ekspresowy = 1
         self.imie = imie
         self.nazwisko = nazwisko
         self.historia = []
 
-        if len(pesel) == 11:
+        if(len(pesel) == 11):
             self.pesel = pesel
         else:
-            self.pesel = "Niepoprawny pesel!"
+            self.pesel = 'Niepoprawny pesel!'
         
         if kod_rabatowy is not None \
             and re.match("^PROMO_\S{3}$", kod_rabatowy) \
@@ -19,7 +19,13 @@ class Konto:
             self.saldo = 50
         else:
             self.saldo = 0
-        
+    
+    def __setitem__(self, key, value):
+        setattr(self, key, value)
+
+    def __getitem__(self, key):
+        return getattr(self, key)
+
     def przelew_wychodzacy(self, kwota):
         if self.saldo - kwota >= 0:
             self.saldo -= kwota
